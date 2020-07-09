@@ -1,15 +1,19 @@
 import React from 'react';
-import { Title } from './style';
+import { BrowserRouter, Route, Switch  } from 'react-router-dom';
+import Main from './components/Main';
+import Repositories from './components/Repositories';
 
 
 
 
 function App() {
   return(
-    <>
-      <Title>Nyaa Nyaaa</Title>
-      <h4>huehueheu</h4>
-    </>
+   <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={Main} />
+        <Route path="/repositories/:repositories"  component={Repositories} />
+      </Switch>
+   </BrowserRouter>
   );
 
 
