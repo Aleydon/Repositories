@@ -1,11 +1,16 @@
 import React from 'react';
+import { Title, SubTitle, Container } from '../../Styles/styled';
+import { FaGithub } from 'react-icons/fa';
+
+
 
 
 function Main() {
   return(
-      <div>
-          <h3>Main</h3>
-      </div>
+      <Container>
+          <Title><FaGithub size={30} color="#fff" />Aleydon Repositories</Title>
+          <SubTitle>Sub Title</SubTitle>
+      </Container>
   )
 }
 
