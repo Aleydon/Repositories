@@ -10,7 +10,16 @@ export const Title = styled.h1`
     color: #f00;
     font-style: italic;
     margin: 20px;
+
+
+
+    /* Margin on Icon */
+    svg{
+        margin-right: 20px;
+        margin-top: 3px;
+    }
 `;
+
 
 
 export const SubTitle = styled.h3`
@@ -19,21 +28,37 @@ export const SubTitle = styled.h3`
 `;
 
 
+
 export const Container = styled.div`
     background: #fff;
     border-radius: 10px;
     margin: 60px auto;
     padding: 30px;
     width: 60%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 `;
 
 
 
 export const SearchButton = styled.button`
     width: 90px;
+    height: 35px;
+    background: #0D2636;
+    color: #e3e3e3;
+    border-radius: 5px;
+    margin-left: 15px;
+    justify-content: center;
+    align-items: center;
 `;
 
 
 
 export const Form = styled.form`
+    display: flex;
+    flex-direction: row;
+
+    input{
+        flex: 1;
+        height: 30px;
+    }
 `;
