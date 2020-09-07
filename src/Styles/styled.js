@@ -40,12 +40,14 @@ export const Container = styled.div`
 
 
 
-export const SearchButton = styled.button`
+export const SearchButton = styled.button.attrs({
+    type: 'button'
+})`
     width: 90px;
     height: 35px;
     background: #0D2636;
     color: #e3e3e3;
-    border-radius: 5px;
+    border-radius: 7px;
     margin-left: 15px;
     justify-content: center;
     align-items: center;
