@@ -64,3 +64,31 @@ export const Form = styled.form`
         height: 30px;
     }
 `;
+
+
+
+export const List = styled.ul`
+    list-style: none;
+    margin-top: 30px;
+
+    li{
+        padding: 5px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    & + li {
+        border-top: 1px solid #000;
+    }
+`;
+
+
+
+
+export  const DeleteRepo = styled.button.attrs({
+    type: 'button'
+})`
+
+`;
