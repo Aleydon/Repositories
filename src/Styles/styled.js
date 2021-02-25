@@ -42,6 +42,7 @@ export const Container = styled.div`
 export const SearchButton = styled.button.attrs({
     type: 'button'
 })`
+    display: flex;
     width: 90px;
     height: 30px;
     background: #0D2636;
