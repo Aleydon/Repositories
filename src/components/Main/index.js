@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
+import { FaGithub, FaSearch, FaTrash } from 'react-icons/fa';
+
 import { Title, SubTitle, Container, Form, SearchButton, List, DeleteRepo } from '../../Styles/styled';
-import { FaGithub, FaSearch, FaBars, FaTrash } from 'react-icons/fa';
 import api from '../../services/api';
 
 
@@ -13,20 +14,11 @@ function Main() {
 
 
 
-  function handleInput(e){
-      setInput(e.target.value);
-  }
-
-
-
-
   // Filter and remove Repositories from states
   const handleDeleteRepository = useCallback((repo) => {
       const find = repositories.filter(filtered => filtered.name !== repo);
       setRepositories(find);
     }, [repositories]);
-
-
 
 
 
@@ -44,7 +36,6 @@ function Main() {
               }
               setRepositories([...repositories, data]);
               setInput('');
-              console.log(data.name, data.createAt);
             }
         }
         catch(error){
@@ -65,9 +56,9 @@ function Main() {
           <Form>
             <input 
               type="text" 
-              placeholder="Type here your Repository"
+              placeholder="   Type here your Repository"
               value={input}
-              onChange={handleInput}
+              onChange={(e) => setInput(e.target.value)}
             />
 
             <SearchButton onClick={handleSubmit}><FaSearch /></SearchButton>
@@ -75,14 +66,17 @@ function Main() {
 
 
           <List>
-              {repositories.map((repos) => (
-                    <li key={repos}>
-                      <span>
+              {repositories.map((repos, index) => (
+                <div key={index}>
+                    <li>
+                      {/* <span>
                           <a href="/"><FaBars size={15}/></a>
-                      </span>
-                      {repos.name}{repos.createAt}
-                        <DeleteRepo onClick={() => {handleDeleteRepository(repos.name)}}><FaTrash size={15}/></DeleteRepo>
+                      </span> */}
+                        <h4>Repo: <span>{repos.name}</span></h4>
+                        <h5>Created At:<span>{repos.createAt}</span></h5>
+                          <DeleteRepo onClick={() => {handleDeleteRepository(repos.name)}}><FaTrash size={15}/></DeleteRepo>
                     </li>
+                </div>
               ))}
           </List>
 

@@ -3,13 +3,12 @@ import styled from 'styled-components';
 
 
 
-
 export const Title = styled.h1`
     display: flex;
     flex-direction: row;
     color: #f00;
     font-style: italic;
-    margin: 20px;
+    margin-right: 200px;
 
 
 
@@ -44,7 +43,7 @@ export const SearchButton = styled.button.attrs({
     type: 'button'
 })`
     width: 90px;
-    height: 35px;
+    height: 30px;
     background: #0D2636;
     color: #e3e3e3;
     border-radius: 7px;
