@@ -62,6 +62,7 @@ export const Form = styled.form`
     input{
         flex: 1;
         height: 30px;
+        padding-left: 10px;
     }
 `;
 
