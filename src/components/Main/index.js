@@ -11,8 +11,8 @@ import api from '../../services/api';
 function Main() {
   const [ input, setInput ] = useState('');
   const [ repositories, setRepositories ] = useState([]);
-  const [ repoAlreadyExists, setRepoAlreadyExists ] = useState(null);
   const [loading, setLoading] = useState(false);
+  // const [ repoAlreadyExists, setRepoAlreadyExists ] = useState(null);
 
 
 
@@ -74,10 +74,15 @@ function Main() {
               onChange={handleInputChange}
             />
 
-            <SearchButton onClick={handleSubmit}>
+
+            {/* Change icon button search  */}
+            <SearchButton onClick={handleSubmit} loading={loading ? 1 : 0} >
               {
-                loading ? <FaSpinner />
-                        : <FaSearch />
+                loading ? (
+                  <FaSpinner />
+                  ): (
+                  <FaSearch />
+                  )
               }
             </SearchButton>
           </Form>

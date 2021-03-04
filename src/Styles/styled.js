@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { keyframes, css } from "styled-components";
 
 
 
@@ -38,10 +39,20 @@ export const Container = styled.div`
 `;
 
 
+const buttonRotateAnimation = keyframes`
+    from{
+    transform: rotate(0deg);
+    }
 
-export const SearchButton = styled.button.attrs({
-    type: 'button'
-})`
+    to{
+    transform: rotate(360deg);
+}`;
+
+
+export const SearchButton = styled.button.attrs(props => ({
+    type: 'button',
+    disabled: props.loading
+}))`
     display: flex;
     width: 90px;
     height: 30px;
@@ -51,6 +62,21 @@ export const SearchButton = styled.button.attrs({
     margin-left: 15px;
     justify-content: center;
     align-items: center;
+    
+    &[disabled]{
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+
+    
+    /* If loading is true, active animation */
+    ${props => props.loading &&
+        css`
+            svg{
+                animation: ${buttonRotateAnimation} 2s linear infinite; */
+            }
+        `
+    }
 `;
 
 
