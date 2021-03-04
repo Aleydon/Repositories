@@ -63,6 +63,7 @@ export const Form = styled.form`
         flex: 1;
         height: 30px;
         padding-left: 10px;
+        /* border: 1px solid ${props => props.repoAlreadyExists === 1 ? 'green' : '#f00'} */
     }
 `;
 

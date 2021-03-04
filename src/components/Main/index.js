@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { FaGithub, FaSearch, FaTrash } from 'react-icons/fa';
+import { FaGithub, FaSearch, FaTrash, FaSpinner } from 'react-icons/fa';
 
 import { Title, SubTitle, Container, Form, SearchButton, List, DeleteRepo } from '../../Styles/styled';
 import api from '../../services/api';
@@ -11,6 +11,8 @@ import api from '../../services/api';
 function Main() {
   const [ input, setInput ] = useState('');
   const [ repositories, setRepositories ] = useState([]);
+  const [ repoAlreadyExists, setRepoAlreadyExists ] = useState(null);
+  const [loading, setLoading] = useState(false);
 
 
 
@@ -25,6 +27,7 @@ function Main() {
   // Get Repositories and set in State
   const handleSubmit = useCallback((e) => {
       e.preventDefault();
+      setLoading(true);
 
       async function getRepositories(){
         try{
@@ -37,15 +40,25 @@ function Main() {
               setRepositories([...repositories, data]);
               setInput('');
             }
+          else{
+            alert('Please, type one repository to search...')
+          }
         }
         catch(error){
           console.log(error);
         }
+        finally{
+          setLoading(false);
+        }
       }
-
       getRepositories();
   }, [input, repositories]);
 
+
+  const handleInputChange = useCallback((e) => {
+    setInput(e.target.value);
+      // setRepoAlreadyExists(1);
+  });
 
 
   return(
@@ -58,11 +71,18 @@ function Main() {
               type="text" 
               placeholder="Type here your Repository"
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={handleInputChange}
             />
 
-            <SearchButton onClick={handleSubmit}><FaSearch /></SearchButton>
+            <SearchButton onClick={handleSubmit}>
+              {
+                loading ? <FaSpinner />
+                        : <FaSearch />
+              }
+            </SearchButton>
           </Form>
+
+
 
 
           <List>
