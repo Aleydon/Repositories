@@ -11,8 +11,6 @@ export const Title = styled.h1`
     font-style: italic;
     margin-right: 200px;
 
-
-
     /* Margin on Icon */
     svg{
         margin-right: 20px;
@@ -41,11 +39,11 @@ export const Container = styled.div`
 
 const buttonRotateAnimation = keyframes`
     from{
-    transform: rotate(0deg);
+        transform: rotate(0deg);
     }
 
     to{
-    transform: rotate(360deg);
+        transform: rotate(360deg);
 }`;
 
 
@@ -67,7 +65,6 @@ export const SearchButton = styled.button.attrs(props => ({
         cursor: not-allowed;
         opacity: 0.7;
     }
-
     
     /* If loading is true, active animation */
     ${props => props.loading &&
@@ -89,7 +86,8 @@ export const Form = styled.form`
         flex: 1;
         height: 30px;
         padding-left: 10px;
-        /* border: 1px solid ${props => props.repoAlreadyExists === 1 ? 'green' : '#f00'} */
+        border: 1px solid ${props => (props.error ? '#f00' : '#D3D3D3')};
+        border-radius: 5px;
     }
 `;
 

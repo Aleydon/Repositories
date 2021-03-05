@@ -11,8 +11,8 @@ import api from '../../services/api';
 function Main() {
   const [ input, setInput ] = useState('');
   const [ repositories, setRepositories ] = useState([]);
-  const [loading, setLoading] = useState(false);
-  // const [ repoAlreadyExists, setRepoAlreadyExists ] = useState(null);
+  const [ loading, setLoading ] = useState(false);
+  const [ voidInput, setVoidInput ] = useState(null);
 
 
 
@@ -28,6 +28,7 @@ function Main() {
   const handleSubmit = useCallback((e) => {
       e.preventDefault();
       setLoading(true);
+      setVoidInput(null);
 
       async function getRepositories(){
         try{
@@ -40,9 +41,10 @@ function Main() {
               setRepositories([...repositories, data]);
               setInput('');
             }
-          else{
-            alert('Please, type one repository to search...')
+            else{
+            setVoidInput(true);
           }
+
         }
         catch(error){
           console.log(error);
@@ -55,10 +57,12 @@ function Main() {
   }, [input, repositories]);
 
 
+
   const handleInputChange = useCallback((e) => {
     setInput(e.target.value);
-      // setRepoAlreadyExists(1);
-  });
+    setVoidInput(null);
+  }, []);
+
 
 
   return(
@@ -66,10 +70,10 @@ function Main() {
           <Title><FaGithub size={30} color="#000" />Repositories</Title>
           <SubTitle>Sub Title</SubTitle>
 
-          <Form>
+          <Form error={voidInput}>
             <input
               type="text" 
-              placeholder="Type here your Repository"
+              placeholder="Type here some Repository"
               value={input}
               onChange={handleInputChange}
             />
@@ -80,7 +84,7 @@ function Main() {
               {
                 loading ? (
                   <FaSpinner />
-                  ): (
+                  ) : (
                   <FaSearch />
                   )
               }
@@ -89,17 +93,13 @@ function Main() {
 
 
 
-
           <List>
               {repositories.map((repos, index) => (
                 <div key={index}>
                     <li>
-                      {/* <span>
-                          <a href="/"><FaBars size={15}/></a>
-                      </span> */}
                         <h4>Repo: <span>{repos.name}</span></h4>
                         <h5>Created At:<span>{repos.createAt}</span></h5>
-                          <DeleteRepo onClick={() => {handleDeleteRepository(repos.name)}}><FaTrash size={15} color="red" /></DeleteRepo>
+                        <DeleteRepo onClick={() => {handleDeleteRepository(repos.name)}}><FaTrash size={15} color="red" /></DeleteRepo>
                     </li>
                 </div>
               ))}
