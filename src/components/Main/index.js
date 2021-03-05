@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { FaGithub, FaSearch, FaTrash, FaSpinner } from 'react-icons/fa';
 
 import { Title, SubTitle, Container, Form, SearchButton, List, DeleteRepo } from '../../Styles/styled';
@@ -15,11 +15,27 @@ function Main() {
   const [ voidInput, setVoidInput ] = useState(null);
 
 
+  // Get repos in localStorage
+  useEffect(() => {
+    const repoStorage = localStorage.getItem('@favorite/repos');
+    // If exists data in localstorage, set data in repositories state
+    if(repoStorage){
+      setRepositories(JSON.parse(repoStorage));
+    }
+  }, []);
+
+
+  // Save repos in localStorage
+  useEffect(() => {
+    localStorage.setItem('@favorite/repos', JSON.stringify(repositories));
+  }, [repositories]);
+
 
   // Filter and remove Repositories from states
   const handleDeleteRepository = useCallback((repo) => {
-      const find = repositories.filter(filtered => filtered.name !== repo);
-      setRepositories(find);
+      const repoDelete = repositories.filter(filtered => filtered.name !== repo);
+      setRepositories(repoDelete);
+      localStorage.removeItem(repoDelete);
     }, [repositories]);
 
 
@@ -32,26 +48,25 @@ function Main() {
 
       async function getRepositories(){
         try{
-         if(input !== ""){
-              const responseData = await api.get(`repos/${input}`);
-              const data = { 
-                  name: responseData.data.full_name,
-                  createAt: responseData.data.created_at
+          if(input !== ""){
+                const responseData = await api.get(`repos/${input}`);
+                const data = { 
+                    name: responseData.data.full_name,
+                    createAt: responseData.data.created_at
+                }
+                setRepositories([...repositories, data]);
+                setInput('');
               }
-              setRepositories([...repositories, data]);
-              setInput('');
+              else{
+              setVoidInput(true);
             }
-            else{
-            setVoidInput(true);
           }
-
-        }
-        catch(error){
-          console.log(error);
-        }
-        finally{
-          setLoading(false);
-        }
+          catch(error){
+            console.log(error);
+          }
+          finally{
+            setLoading(false);
+          }
       }
       getRepositories();
   }, [input, repositories]);
@@ -99,7 +114,7 @@ function Main() {
                     <li>
                         <h4>Repo: <span>{repos.name}</span></h4>
                         <h5>Created At:<span>{repos.createAt}</span></h5>
-                        <DeleteRepo onClick={() => {handleDeleteRepository(repos.name)}}><FaTrash size={15} color="red" /></DeleteRepo>
+                        <DeleteRepo onClick={() => {handleDeleteRepository(repos.name)}}><FaTrash size={16} color="red" /></DeleteRepo>
                     </li>
                 </div>
               ))}
