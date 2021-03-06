@@ -1,9 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { FaGithub, FaSearch, FaTrash, FaSpinner } from 'react-icons/fa';
+import { FaGithub, FaSearch, FaTrash, FaSpinner, FaGreaterThan } from 'react-icons/fa';
 
 import { Title, SubTitle, Container, Form, SearchButton, List, DeleteRepo } from '../../Styles/styled';
 import api from '../../services/api';
-
 
 
 
@@ -15,7 +14,7 @@ function Main() {
   const [ voidInput, setVoidInput ] = useState(null);
 
 
-  // Get repos in localStorage
+  // Get repos saved in localStorage
   useEffect(() => {
     const repoStorage = localStorage.getItem('@favorite/repos');
     // If exists data in localstorage, set data in repositories state
@@ -52,21 +51,28 @@ function Main() {
                 const responseData = await api.get(`repos/${input}`);
                 const data = { 
                     name: responseData.data.full_name,
-                    createAt: responseData.data.created_at
-                }
+                    url: responseData.data.url
+                  }
                 setRepositories([...repositories, data]);
                 setInput('');
               }
-              else{
-              setVoidInput(true);
-            }
+          else{
+            setVoidInput(true);
           }
-          catch(error){
-            console.log(error);
-          }
-          finally{
-            setLoading(false);
-          }
+
+          // Checks if repository already exists
+          const repoAlready = repositories.find(repo => repo.name === input);
+          if(repoAlready){
+            throw new Error('Repository already!');
+          } 
+
+        }
+        catch(error){
+          console.log(error);
+        }
+        finally{
+          setLoading(false);
+        }
       }
       getRepositories();
   }, [input, repositories]);
@@ -97,11 +103,7 @@ function Main() {
             {/* Change icon button search  */}
             <SearchButton onClick={handleSubmit} loading={loading ? 1 : 0} >
               {
-                loading ? (
-                  <FaSpinner />
-                  ) : (
-                  <FaSearch />
-                  )
+                loading ? (<FaSpinner />) : (<FaSearch />)
               }
             </SearchButton>
           </Form>
@@ -112,8 +114,11 @@ function Main() {
               {repositories.map((repos, index) => (
                 <div key={index}>
                     <li>
-                        <h4>Repo: <span>{repos.name}</span></h4>
-                        <h5>Created At:<span>{repos.createAt}</span></h5>
+                        <a href="/">
+                          <FaGreaterThan size={16} color="#006600" />
+                        </a>
+                        <h5><span>{repos.name}</span></h5>
+                        <h6><span>{repos.url}</span></h6>
                         <DeleteRepo onClick={() => {handleDeleteRepository(repos.name)}}><FaTrash size={16} color="red" /></DeleteRepo>
                     </li>
                 </div>
