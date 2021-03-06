@@ -32,7 +32,7 @@ export const Container = styled.div`
     border-radius: 10px;
     margin: 60px auto;
     padding: 30px;
-    width: 60%;
+    width: 73%;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 `;
 
@@ -41,7 +41,6 @@ const buttonRotateAnimation = keyframes`
     from{
         transform: rotate(0deg);
     }
-
     to{
         transform: rotate(360deg);
 }`;
@@ -112,9 +111,7 @@ export const List = styled.ul`
 
 
 
-
 export  const DeleteRepo = styled.button.attrs({
     type: 'button'
 })`
-
 `;
