@@ -19,6 +19,7 @@ module.exports = {
     'import/extensions': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'no-console': 'off',
-    'import/no-unresolved': [2, { caseSensitive: false }],
+    'import/no-unresolved': [2, { caseSensitive: true }],
+    'eslint-disable react/no-array-index-key': true,
   },
 };

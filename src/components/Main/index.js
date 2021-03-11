@@ -115,8 +115,8 @@ function Main() {
       </Form>
 
       <List>
-        {repositories.map((repos, id) => (
-          <div key={id}>
+        {repositories.map((repos, index) => (
+          <div key={index}>
             <li>
               <a href="/">
                 <FaGreaterThan size={16} color="#006600" />
