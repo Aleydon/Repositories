@@ -1,133 +1,145 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { FaGithub, FaSearch, FaTrash, FaSpinner, FaGreaterThan } from 'react-icons/fa';
+import {
+  FaGithub,
+  FaSearch,
+  FaTrash,
+  FaSpinner,
+  FaGreaterThan,
+} from 'react-icons/fa';
 
-import { Title, SubTitle, Container, Form, SearchButton, List, DeleteRepo } from '../../Styles/styled';
+import {
+  Title,
+  SubTitle,
+  Container,
+  Form,
+  SearchButton,
+  List,
+  DeleteRepo,
+} from '../../Styles/styled';
 import api from '../../services/api';
 
-
-
-
 function Main() {
-  const [ input, setInput ] = useState('');
-  const [ repositories, setRepositories ] = useState([]);
-  const [ loading, setLoading ] = useState(false);
-  const [ voidInput, setVoidInput ] = useState(null);
-
+  const [input, setInput] = useState('');
+  const [repositories, setRepositories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [voidInput, setVoidInput] = useState(null);
 
   // Get repos saved in localStorage
   useEffect(() => {
     const repoStorage = localStorage.getItem('@favorite/repos');
     // If exists data in localstorage, set data in repositories state
-    if(repoStorage){
+    if (repoStorage) {
       setRepositories(JSON.parse(repoStorage));
     }
   }, []);
-
 
   // Save repos in localStorage
   useEffect(() => {
     localStorage.setItem('@favorite/repos', JSON.stringify(repositories));
   }, [repositories]);
 
-
   // Filter and remove Repositories from states
-  const handleDeleteRepository = useCallback((repo) => {
-      const repoDelete = repositories.filter(filtered => filtered.name !== repo);
+  const handleDeleteRepository = useCallback(
+    (repo) => {
+      const repoDelete = repositories.filter(
+        (filtered) => filtered.name !== repo,
+      );
       setRepositories(repoDelete);
       localStorage.removeItem(repoDelete);
-    }, [repositories]);
-
-
+    },
+    [repositories],
+  );
 
   // Get Repositories and set in State
-  const handleSubmit = useCallback((e) => {
+  const handleSubmit = useCallback(
+    (e) => {
       e.preventDefault();
       setLoading(true);
       setVoidInput(null);
 
-      async function getRepositories(){
-        try{
-          if(input !== ""){
-                const responseData = await api.get(`repos/${input}`);
-                const data = { 
-                    name: responseData.data.full_name,
-                    url: responseData.data.url
-                  }
-                setRepositories([...repositories, data]);
-                setInput('');
-              }
-          else{
+      async function getRepositories() {
+        try {
+          if (input !== '') {
+            const responseData = await api.get(`repos/${input}`);
+            const data = {
+              name: responseData.data.full_name,
+              url: responseData.data.url,
+            };
+            setRepositories([...repositories, data]);
+            setInput('');
+          } else {
             setVoidInput(true);
           }
 
           // Checks if repository already exists
-          const repoAlready = repositories.find(repo => repo.name === input);
-          if(repoAlready){
+          const repoAlready = repositories.find((repo) => repo.name === input);
+          if (repoAlready) {
             throw new Error('Repository already!');
-          } 
-
-        }
-        catch(error){
+          }
+        } catch (error) {
           console.log(error);
-        }
-        finally{
+        } finally {
           setLoading(false);
         }
       }
       getRepositories();
-  }, [input, repositories]);
-
-
+    },
+    [input, repositories],
+  );
 
   const handleInputChange = useCallback((e) => {
     setInput(e.target.value);
     setVoidInput(null);
   }, []);
 
+  return (
+    <Container>
+      <Title>
+        <FaGithub size={30} color="#000" />
+        Repositories
+      </Title>
+      <SubTitle>Sub Title</SubTitle>
 
+      <Form error={voidInput}>
+        <input
+          type="text"
+          placeholder="Type here some Repository"
+          value={input}
+          onChange={handleInputChange}
+        />
 
-  return(
-      <Container>
-          <Title><FaGithub size={30} color="#000" />Repositories</Title>
-          <SubTitle>Sub Title</SubTitle>
+        {/* Change icon button search  */}
+        <SearchButton onClick={handleSubmit} loading={loading ? 1 : 0}>
+          {loading ? <FaSpinner /> : <FaSearch />}
+        </SearchButton>
+      </Form>
 
-          <Form error={voidInput}>
-            <input
-              type="text" 
-              placeholder="Type here some Repository"
-              value={input}
-              onChange={handleInputChange}
-            />
-
-
-            {/* Change icon button search  */}
-            <SearchButton onClick={handleSubmit} loading={loading ? 1 : 0} >
-              {
-                loading ? (<FaSpinner />) : (<FaSearch />)
-              }
-            </SearchButton>
-          </Form>
-
-
-
-          <List>
-              {repositories.map((repos, index) => (
-                <div key={index}>
-                    <li>
-                        <a href="/">
-                          <FaGreaterThan size={16} color="#006600" />
-                        </a>
-                        <h5><span>{repos.name}</span></h5>
-                        <h6><span>{repos.url}</span></h6>
-                        <DeleteRepo onClick={() => {handleDeleteRepository(repos.name)}}><FaTrash size={16} color="red" /></DeleteRepo>
-                    </li>
-                </div>
-              ))}
-          </List>
-
-
-      </Container>
-  )
+      <List>
+        {repositories.map((repos, id) => (
+          <div key={id}>
+            <li>
+              <a href="/">
+                <FaGreaterThan size={16} color="#006600" />
+              </a>
+              <h5>
+                <span>{repos.name}</span>
+              </h5>
+              <h6>
+                <span>{repos.url}</span>
+              </h6>
+              <DeleteRepo
+                onClick={() => {
+                  handleDeleteRepository(repos.name);
+                }}
+              >
+                <FaTrash size={16} color="red" />
+              </DeleteRepo>
+            </li>
+          </div>
+        ))}
+      </List>
+    </Container>
+  );
 }
 
 export default Main;
