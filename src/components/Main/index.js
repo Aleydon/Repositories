@@ -7,6 +7,7 @@ import {
   FaGreaterThan,
 } from 'react-icons/fa';
 
+import { Link } from 'react-router-dom';
 import {
   Title,
   SubTitle,
@@ -15,7 +16,8 @@ import {
   SearchButton,
   List,
   DeleteRepo,
-} from '../../Styles/styled';
+} from '../../styles/styled';
+
 import api from '../../services/api';
 
 function Main() {
@@ -115,12 +117,12 @@ function Main() {
       </Form>
 
       <List>
-        {repositories.map((repos, index) => (
-          <div key={index}>
+        {repositories.map((repos) => (
+          <div key={repos.name}>
             <li>
-              <a href="/">
+              <Link to={`/repositories/${encodeURIComponent(repos.name)}`}>
                 <FaGreaterThan size={16} color="#006600" />
-              </a>
+              </Link>
               <h5>
                 <span>{repos.name}</span>
               </h5>

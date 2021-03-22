@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Main from './components/Main';
 import Repositories from './components/Repositories';
-import GlobalStyle from './Styles/global';
+import GlobalStyle from './styles/global';
 
 function App() {
   return (
