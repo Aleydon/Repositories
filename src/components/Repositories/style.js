@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   background: #fff;
@@ -10,7 +11,7 @@ export const Container = styled.div`
 `;
 
 export const Loading = styled.div`
-  color: 'white';
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,4 +34,19 @@ export const Owner = styled.div`
     color: #f00;
     font-size: 30px;
   }
+
+  p {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #000;
+    text-align: center;
+    line-height: 1.4;
+    max-width: 400px;
+  }
+`;
+
+export const BackButton = styled(Link)`
+  border: 0;
+  outline: 0;
+  background: transparent;
 `;

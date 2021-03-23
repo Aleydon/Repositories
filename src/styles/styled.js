@@ -81,7 +81,6 @@ export const Form = styled.form`
 export const List = styled.ul`
   list-style: none;
   margin-top: 30px;
-
   li {
     padding: 5px;
     display: flex;
@@ -97,4 +96,13 @@ export const List = styled.ul`
 
 export const DeleteRepo = styled.button.attrs({
   type: 'button',
-})``;
+})`
+  border: 0;
+  outline: 0;
+  background: transparent;
+  margin-right: 10px;
+`;
+
+export const RepoName = styled.h5`
+  margin-right: 60%;
+`;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { FaArrowLeft } from 'react-icons/fa';
 
-import { Container, Loading, Owner } from './style';
+import { Container, Loading, Owner, BackButton } from './style';
 import api from '../../services/api';
 
 function Repositories({ match }) {
@@ -34,11 +35,13 @@ function Repositories({ match }) {
 
   return (
     <Container>
+      <BackButton to="/">
+        <FaArrowLeft color="#000" size={20} />
+      </BackButton>
       <Owner>
         <img src={repoData.owner.avatar_url} alt={repoData.name} />
-        <h1>Repositorie: {repoData.name} </h1>
-        <h3>URL: {repoData.url} </h3>
-        <h4>Description: {repoData.description}</h4>
+        <h1>{repoData.name}</h1>
+        <p>{repoData.description}</p>
         <h5>{issueData.data}</h5>
       </Owner>
     </Container>

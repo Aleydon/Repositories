@@ -16,6 +16,7 @@ import {
   SearchButton,
   List,
   DeleteRepo,
+  RepoName,
 } from '../../styles/styled';
 
 import api from '../../services/api';
@@ -123,9 +124,9 @@ function Main() {
               <Link to={`/repositories/${encodeURIComponent(repos.name)}`}>
                 <FaGreaterThan size={16} color="#006600" />
               </Link>
-              <h5>
+              <RepoName>
                 <span>{repos.name}</span>
-              </h5>
+              </RepoName>
               <h6>
                 <span>{repos.url}</span>
               </h6>
