@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 
-import { Container, Loading, Owner, BackButton } from './style';
+import { Container, Loading, Owner, BackButton, IssuesList } from './style';
 import api from '../../services/api';
 
 function Repositories({ match }) {
@@ -30,7 +30,7 @@ function Repositories({ match }) {
   }, [match]);
 
   if (loading) {
-    return <Loading style={{ color: 'white' }}>Testing...</Loading>;
+    return <Loading style={{ color: '#fff' }}>Loading...</Loading>;
   }
 
   return (
@@ -42,8 +42,27 @@ function Repositories({ match }) {
         <img src={repoData.owner.avatar_url} alt={repoData.name} />
         <h1>{repoData.name}</h1>
         <p>{repoData.description}</p>
-        <h5>{issueData.data}</h5>
       </Owner>
+
+      <IssuesList>
+        {issueData.map((issue) => (
+          <li key={issue.id}>
+            <img src={issue.user.avatar_url} alt={issue.user.login} />
+            <div>
+              <strong>
+                <a href={issue.html_url} alt="issue-link">
+                  {issue.title}
+                </a>
+              </strong>
+
+              <p>{issue.user.login}</p>
+              {issue.labels.map((label) => (
+                <span key={label.id}>{label.name}</span>
+              ))}
+            </div>
+          </li>
+        ))}
+      </IssuesList>
     </Container>
   );
 }
