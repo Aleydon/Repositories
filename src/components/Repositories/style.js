@@ -28,6 +28,20 @@ export const Owner = styled.div`
     height: 150px;
     width: 150px;
     margin: 20px 0;
+    -webkit-transition: 0.3s ease-in !important;
+    -moz-transition: 0.3s ease-in !important;
+    -o-transition: 0.3s ease-in !important;
+    transition: 0.3s ease-in !important;
+  }
+
+  img:hover {
+    width: 170px;
+    height: 170px;
+    -webkit-transition: 0.2s ease-in !important;
+    -moz-transition: 0.2s ease-in !important;
+    -o-transition: 0.2s ease-in !important;
+    transition: 0.2s ease-in !important;
+    cursor: pointer;
   }
 
   h1 {
@@ -97,11 +111,29 @@ export const IssuesList = styled.ul`
     a {
       text-decoration: none;
       color: #222;
-      transform: 0.3s;
+      transform: 0.2s;
 
       &:hover {
         color: #0071bd;
       }
+    }
+  }
+`;
+
+export const Pagination = styled.div`
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & button {
+    outline: 0;
+    border: 0;
+    background: transparent;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.3;
     }
   }
 `;
