@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
+import { FaArrowLeft, FaForward, FaBackward } from 'react-icons/fa';
 
-import { Container, Loading, Owner, BackButton, IssuesList } from './style';
+import {
+  Container,
+  Loading,
+  Owner,
+  BackButton,
+  IssuesList,
+  Pagination,
+} from './style';
 import api from '../../services/api';
 
 function Repositories({ match }) {
   const [repoData, setRepoData] = useState([]);
   const [issueData, setIssueData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pageAction, setPageAction] = useState(1);
 
+  // Get repositorie and issues via params
   useEffect(() => {
     async function loadRepositoryDetails() {
-      // Get repositorie and issues via params
       const repoDetail = decodeURIComponent(match.params.repositories);
       const [repositorieData, issuesData] = await Promise.all([
         api.get(`/repos/${repoDetail}`),
         api.get(`/repos/${repoDetail}/issues`, {
           params: {
-            state: 'open',
+            state: 'all',
             per_page: 5,
           },
         }),
@@ -27,7 +35,28 @@ function Repositories({ match }) {
       setLoading(false);
     }
     loadRepositoryDetails();
-  }, [match]);
+  }, [match.params.repositories]);
+
+  // Set Pagination on api params
+  useEffect(() => {
+    async function loadPageIssue() {
+      const repoDetail = decodeURIComponent(match.params.repositories);
+      const response = await api.get(`repos/${repoDetail}/issues`, {
+        params: {
+          state: 'all',
+          page: pageAction,
+          per_page: 5,
+        },
+      });
+      setIssueData(response.data);
+    }
+    loadPageIssue();
+  }, [match.params.repositories, pageAction]);
+
+  // Page Navigation
+  const handlePagination = (action) => {
+    setPageAction(action === 'nextPage' ? pageAction + 1 : pageAction - 1);
+  };
 
   if (loading) {
     return <Loading style={{ color: '#fff' }}>Loading...</Loading>;
@@ -35,6 +64,7 @@ function Repositories({ match }) {
 
   return (
     <Container>
+      {/* Header of Repo Details */}
       <BackButton to="/">
         <FaArrowLeft color="#000" size={20} />
       </BackButton>
@@ -63,6 +93,20 @@ function Repositories({ match }) {
           </li>
         ))}
       </IssuesList>
+
+      <Pagination>
+        <button
+          onClick={() => handlePagination('previousPage')}
+          type="button"
+          disabled={pageAction < 2}
+        >
+          <FaBackward />
+        </button>
+        {pageAction}
+        <button onClick={() => handlePagination('nextPage')} type="button">
+          <FaForward />
+        </button>
+      </Pagination>
     </Container>
   );
 }
