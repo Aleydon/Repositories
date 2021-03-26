@@ -106,7 +106,12 @@ function Repositories({ match }) {
             <img src={issue.user.avatar_url} alt={issue.user.login} />
             <div>
               <strong>
-                <a href={issue.html_url} alt="issue-link">
+                <a
+                  href={issue.html_url}
+                  alt="issue-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {issue.title}
                 </a>
               </strong>
