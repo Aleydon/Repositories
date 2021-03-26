@@ -17,6 +17,7 @@ import {
   List,
   DeleteRepo,
   RepoName,
+  InputWarn,
 } from '../../styles/styled';
 
 import api from '../../services/api';
@@ -26,6 +27,7 @@ function Main() {
   const [repositories, setRepositories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [voidInput, setVoidInput] = useState(null);
+  const [inputErrorText, setInputErrorText] = useState('');
 
   // Get repos saved in localStorage
   useEffect(() => {
@@ -72,6 +74,7 @@ function Main() {
             setInput('');
           } else {
             setVoidInput(true);
+            setInputErrorText('Please type some repository');
           }
 
           // Checks if repository already exists
@@ -80,7 +83,8 @@ function Main() {
             throw new Error('Repository already!');
           }
         } catch (error) {
-          console.log(error);
+          setVoidInput(true);
+          setInputErrorText('Repository not found :(');
         } finally {
           setLoading(false);
         }
@@ -118,6 +122,7 @@ function Main() {
       </Form>
 
       <List>
+        <InputWarn>{inputErrorText}</InputWarn>
         {repositories.map((repos) => (
           <div key={repos.name}>
             <li>
