@@ -137,3 +137,25 @@ export const Pagination = styled.div`
     }
   }
 `;
+
+export const FilterList = styled.div`
+  margin: 15px 0;
+
+  button {
+    padding: 8px;
+    border: 0;
+    outline: 0;
+    border-radius: 4px;
+    margin: 0 3px;
+
+    &:hover {
+      background-color: #0d2636;
+      color: #fff;
+    }
+
+    &:nth-child(${(props) => props.active + 1}) {
+      background: #006600;
+      color: #fff;
+    }
+  }
+`;

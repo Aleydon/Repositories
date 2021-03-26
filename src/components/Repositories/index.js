@@ -8,6 +8,7 @@ import {
   BackButton,
   IssuesList,
   Pagination,
+  FilterList,
 } from './style';
 import api from '../../services/api';
 
@@ -16,6 +17,12 @@ function Repositories({ match }) {
   const [issueData, setIssueData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pageAction, setPageAction] = useState(1);
+  const [filterIndex, setFilterIndex] = useState(0);
+  const [filters, setFilters] = useState([
+    { state: 'all', labelButton: 'All', active: false },
+    { state: 'open', labelButton: 'Open', active: true },
+    { state: 'closed', labelButton: 'Closed', active: false },
+  ]);
 
   // Get repositorie and issues via params
   useEffect(() => {
@@ -25,7 +32,7 @@ function Repositories({ match }) {
         api.get(`/repos/${repoDetail}`),
         api.get(`/repos/${repoDetail}/issues`, {
           params: {
-            state: 'all',
+            state: filters.find((f) => f.active).state,
             per_page: 5,
           },
         }),
@@ -35,7 +42,7 @@ function Repositories({ match }) {
       setLoading(false);
     }
     loadRepositoryDetails();
-  }, [match.params.repositories]);
+  }, [filters, match.params.repositories]);
 
   // Set Pagination on api params
   useEffect(() => {
@@ -43,7 +50,7 @@ function Repositories({ match }) {
       const repoDetail = decodeURIComponent(match.params.repositories);
       const response = await api.get(`repos/${repoDetail}/issues`, {
         params: {
-          state: 'all',
+          state: filters[filterIndex].state,
           page: pageAction,
           per_page: 5,
         },
@@ -51,7 +58,12 @@ function Repositories({ match }) {
       setIssueData(response.data);
     }
     loadPageIssue();
-  }, [match.params.repositories, pageAction]);
+  }, [filterIndex, filters, match.params.repositories, pageAction]);
+
+  // Handle filter action button
+  const handleFilter = (index) => {
+    setFilterIndex(index);
+  };
 
   // Page Navigation
   const handlePagination = (action) => {
@@ -74,6 +86,20 @@ function Repositories({ match }) {
         <p>{repoData.description}</p>
       </Owner>
 
+      {/* Render Filter Buttons */}
+      <FilterList active={filterIndex}>
+        {filters.map((filter, index) => (
+          <button
+            type="button"
+            key={filter.label}
+            onClick={() => handleFilter(index)}
+          >
+            {filter.labelButton}
+          </button>
+        ))}
+      </FilterList>
+
+      {/* List all issues  */}
       <IssuesList>
         {issueData.map((issue) => (
           <li key={issue.id}>
