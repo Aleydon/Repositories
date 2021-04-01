@@ -46,12 +46,12 @@ function Main() {
   const handleDeleteRepository = useCallback(
     (repo) => {
       const repoDelete = repositories.filter(
-        (filtered) => filtered.name !== repo
+        (filtered) => filtered.name !== repo,
       );
       setRepositories(repoDelete);
       localStorage.removeItem(repoDelete);
     },
-    [repositories]
+    [repositories],
   );
 
   // Get Repositories and set in State
@@ -91,7 +91,7 @@ function Main() {
       }
       getRepositories();
     },
-    [input, repositories]
+    [input, repositories],
   );
 
   const handleInputChange = useCallback((e) => {
