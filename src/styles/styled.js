@@ -106,3 +106,10 @@ export const DeleteRepo = styled.button.attrs({
 export const RepoName = styled.h5`
   margin-right: 60%;
 `;
+
+export const InputWarn = styled.h4`
+  color: #f00;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+`;

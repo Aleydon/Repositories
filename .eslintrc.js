@@ -16,7 +16,7 @@ module.exports = {
     ecmaVersion: 6,
     sourceType: 'module',
   },
-  plugins: ['react', 'prettier', 'react-hooks'],
+  plugins: ['react', 'prettier', 'react-hooks', 'eslint-plugin-import-helpers'],
   rules: {
     'prettier/prettier': ['error'],
     'import/no-named-as-default': 0,
@@ -32,6 +32,14 @@ module.exports = {
       0,
       {
         argsIgnorePattern: 'next',
+      },
+    ],
+    'import-helpers/order-imports': [
+      'warn',
+      {
+        newlinesBetween: 'always', // new line between groups
+        groups: ['module', '/^react/', ['parent', 'sibling', 'index']],
+        alphabetize: { order: 'asc', ignoreCase: true },
       },
     ],
   },

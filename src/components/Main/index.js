@@ -6,8 +6,9 @@ import {
   FaSpinner,
   FaGreaterThan,
 } from 'react-icons/fa';
-
 import { Link } from 'react-router-dom';
+
+import api from '../../services/api';
 import {
   Title,
   SubTitle,
@@ -19,8 +20,6 @@ import {
   RepoName,
   InputWarn,
 } from '../../styles/styled';
-
-import api from '../../services/api';
 
 function Main() {
   const [input, setInput] = useState('');
@@ -47,12 +46,12 @@ function Main() {
   const handleDeleteRepository = useCallback(
     (repo) => {
       const repoDelete = repositories.filter(
-        (filtered) => filtered.name !== repo,
+        (filtered) => filtered.name !== repo
       );
       setRepositories(repoDelete);
       localStorage.removeItem(repoDelete);
     },
-    [repositories],
+    [repositories]
   );
 
   // Get Repositories and set in State
@@ -72,6 +71,7 @@ function Main() {
             };
             setRepositories([...repositories, data]);
             setInput('');
+            setInputErrorText('');
           } else {
             setVoidInput(true);
             setInputErrorText('Please type some repository');
@@ -91,7 +91,7 @@ function Main() {
       }
       getRepositories();
     },
-    [input, repositories],
+    [input, repositories]
   );
 
   const handleInputChange = useCallback((e) => {

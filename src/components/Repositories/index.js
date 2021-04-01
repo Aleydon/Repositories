@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaArrowLeft, FaForward, FaBackward } from 'react-icons/fa';
 
+import api from '../../services/api';
 import {
   Container,
   Loading,
@@ -10,7 +11,6 @@ import {
   Pagination,
   FilterList,
 } from './style';
-import api from '../../services/api';
 
 function Repositories({ match }) {
   const [repoData, setRepoData] = useState([]);
@@ -24,7 +24,7 @@ function Repositories({ match }) {
     { state: 'closed', labelButton: 'Closed', active: false },
   ]);
 
-  // Get repositorie and issues via params
+  // Get repositories
   useEffect(() => {
     async function loadRepositoryDetails() {
       const repoDetail = decodeURIComponent(match.params.repositories);
