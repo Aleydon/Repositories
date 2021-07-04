@@ -46,7 +46,7 @@ NodeJs: :link: https://nodejs.org/en/
 ![Repositories-Not-Found](images/repo_not_found.png)
 
 
-<h4> :floppy_disk: This application stores the repositories in localStorage</h4>
+<h4> :floppy_disk: This application stores the repositories in localStorage:</h4>
 
 ```js
   useEffect(() => {
@@ -54,7 +54,7 @@ NodeJs: :link: https://nodejs.org/en/
   }, [repositories]);  
 ```
 
-<h4>:x: repository  remove</h4>
+<h4>:x: repository  remove:</h4>
 
 ```js
  const handleDeleteRepository = useCallback(
@@ -68,6 +68,6 @@ NodeJs: :link: https://nodejs.org/en/
     [repositories],
   );
 ```
-<h4>:mag_right: Functional filter and navigation</h4>
+<h4>:mag_right: Functional filter and navigation:</h4>
 
 ![Filter-Pagination](images/View_issues_and_pagination.png)
