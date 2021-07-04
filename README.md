@@ -11,7 +11,7 @@
 
 ---
 
-## :pushpin: Requirements: :pushpin:
+## :pushpin: Requirements: :pushpin: 
 
 ReactJs: :link: https://pt-br.reactjs.org/
 
@@ -41,7 +41,7 @@ NodeJs: :link: https://nodejs.org/en/
 ![Search-Repositories](images/added_repositorie.png)
 
 
-<h5>:exclamation:Returns an error message if the repository is not found.</h5>
+<h5>:exclamation:Returns an error message if the repository is not found:</h5>
 
 ![Repositories-Not-Found](images/repo_not_found.png)
 
